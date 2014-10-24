@@ -34,6 +34,44 @@
 					<Add library="C:\Development\c++\boost\stage\lib\x86_64\libboost_filesystem-mt.a" />
 				</Linker>
 			</Target>
+			<Target title="Cross-Compile-Windows-x86_64">
+				<Option platforms="Unix;" />
+				<Option output="Template-Windows-x86_64.exe" prefix_auto="1" extension_auto="0" />
+				<Option object_output=".objs/windows-x86_64" />
+				<Option type="0" />
+				<Option compiler="mingw_x86_64_compiler" />
+				<Compiler>
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O2" />
+					<Add option="-std=c++11" />
+					<Add option="-w" />
+					<Add option="-m64" />
+					<Add option="-DGAME_OS_WINDOWS" />
+					<Add directory="/usr/x86_64-w64-mingw32/include" />
+					<Add directory="/home/tails/build-server/windows-x86_64/SDL2/include/" />
+					<Add directory="/home/tails/build-server/windows-x86_64/boost/" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-m64" />
+					<Add option="-Wl,--stack=67108864" />
+					<Add option="-static-libgcc" />
+					<Add library="\usr\x86_64-w64-mingw32\lib\libmingw32.a" />
+					<Add library="\usr\lib\gcc\x86_64-w64-mingw32\4.8\libstdc++.a" />
+					<Add library="\home\tails\build-server\windows-x86_64\SDL2\build\.libs\libSDL2.a" />
+					<Add library="\home\tails\build-server\windows-x86_64\SDL2\build\libSDL2main.a" />
+					<Add library="\home\tails\build-server\windows-x86_64\boost\stage\lib\libboost_system.a" />
+					<Add library="\home\tails\build-server\windows-x86_64\boost\stage\lib\libboost_filesystem.a" />
+					<Add library="\usr\x86_64-w64-mingw32\lib\libws2_32.a" />
+					<Add library="\usr\x86_64-w64-mingw32\lib\libwinmm.a" />
+					<Add library="\usr\x86_64-w64-mingw32\lib\libwinpthread.a" />
+					<Add library="\usr\x86_64-w64-mingw32\lib\libole32.a" />
+					<Add library="\usr\x86_64-w64-mingw32\lib\libimm32.a" />
+					<Add library="\usr\x86_64-w64-mingw32\lib\libgdi32.a" />
+					<Add library="\usr\x86_64-w64-mingw32\lib\liboleaut32.a" />
+					<Add library="\usr\x86_64-w64-mingw32\lib\libversion.a" />
+				</Linker>
+			</Target>
 			<Target title="Release-Linux-x86_64">
 				<Option platforms="Unix;" />
 				<Option output="checksum-linux-x86_64" prefix_auto="1" extension_auto="0" />
@@ -70,6 +108,9 @@
 		<Unit filename="file_io.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main.h" />
+		<Unit filename="print_error.cpp" />
+		<Unit filename="print_error.h" />
+		<Unit filename="sorting.h" />
 		<Unit filename="string_stuff.cpp" />
 		<Unit filename="string_stuff.h" />
 		<Extensions>

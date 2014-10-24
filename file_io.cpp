@@ -1,4 +1,5 @@
 #include "file_io.h"
+#include "print_error.h"
 
 #include <SDL.h>
 
@@ -397,7 +398,7 @@ string File_IO_Load::get_data(){
                 if(!append){
                     string msg="Error saving file '"+path+"': ";
                     msg+=SDL_GetError();
-                    cout<<"Error: "<<msg<<"\n";
+                    print_error(msg);
                 }
 
                 return false;
@@ -409,7 +410,7 @@ string File_IO_Load::get_data(){
             if(!append){
                 string msg="Error opening file '"+path+"' for saving: ";
                 msg+=SDL_GetError();
-                cout<<"Error: "<<msg<<"\n";
+                print_error(msg);
             }
 
             return false;

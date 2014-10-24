@@ -1,4 +1,5 @@
 #include "string_stuff.h"
+#include "print_error.h"
 
 #include <vector>
 
@@ -265,7 +266,7 @@ bool String_Stuff::string_to_bool(string get_string){
         return false;
     }
     else{
-        cout<<"Invalid value for string_to_bool: '"<<get_string<<"'";
+        print_error("Invalid value for string_to_bool: '"+get_string+"'");
 
         return false;
     }

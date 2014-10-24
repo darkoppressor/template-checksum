@@ -3,8 +3,6 @@
 
 #include <string>
 
-void print_error(std::string error_message);
-
 void print_usage(std::string program_name);
 
 int main(int argc,char* args[]);
