@@ -98,7 +98,7 @@ string get_checksum(string data_path){
 
     log+="Checksum: "+checksum+"\n";
 
-    print_error(log);
+    ///print_error(log);
 
     return checksum;
 }
