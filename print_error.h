@@ -7,6 +7,6 @@
 
 #include <string>
 
-void print_error(std::string error_message);
+void print_error(std::string error_message,bool quiet=false);
 
 #endif

@@ -262,7 +262,7 @@ string String_Stuff::time_string(int seconds,bool highest){
     return text;
 }
 
-bool String_Stuff::string_to_bool(string get_string){
+bool String_Stuff::string_to_bool(string get_string,bool quiet){
     if(get_string=="true" || get_string=="1"){
         return true;
     }
@@ -270,7 +270,7 @@ bool String_Stuff::string_to_bool(string get_string){
         return false;
     }
     else{
-        print_error("Invalid value for string_to_bool: '"+get_string+"'");
+        print_error("Invalid value for string_to_bool: '"+get_string+"'",quiet);
 
         return false;
     }

@@ -11,6 +11,6 @@ void print_usage(std::string program_name);
 
 int main(int argc,char* args[]);
 
-std::string get_checksum(std::string data_path);
+std::string get_checksum(std::string data_path,bool quiet);
 
 #endif

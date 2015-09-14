@@ -45,7 +45,7 @@ public:
     //If highest is true, only shows the highest unit of time possible.
     std::string time_string(int seconds,bool highest=false);
 
-    bool string_to_bool(std::string get_string);
+    bool string_to_bool(std::string get_string,bool quiet);
     std::string bool_to_string(bool get_bool);
 
     long string_to_long(std::string get_string);

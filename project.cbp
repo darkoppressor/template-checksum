@@ -113,6 +113,7 @@
 		<Unit filename="sorting.h" />
 		<Unit filename="string_stuff.cpp" />
 		<Unit filename="string_stuff.h" />
+		<Unit filename="version.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

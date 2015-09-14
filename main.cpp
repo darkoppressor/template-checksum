@@ -17,22 +17,26 @@
 using namespace std;
 
 void print_usage(string program_name){
-    cout<<"Usage: "<<program_name<<" [path/to/data/]\n";
-    cout<<"path/to/data/ should point to the directory with the data that a checksum is required for\n";
+    //Not enforcing quiet here, because if you failed to type the command correctly,
+    //you have bigger problems
+    cout<<program_name<<" - compute a CRC32 hash from a directory full of data files\n";
+    cout<<"Output will be either the computed hash if the program succeeds\nor an empty string if the program fails, on standard output\n";
+    cout<<"Usage: "<<program_name<<" DATA-DIRECTORY QUIET\n";
+    cout<<"QUIET is optional and should be either 'true/1' or 'false/0' (default = false)\n";
 }
 
 int main(int argc,char* args[]){
-    File_IO file_io;
-
-    file_io.remove_directory("log-checksum");
+    String_Stuff string_stuff;
 
     //Can this even happen?
     if(argc<=0){
-        print_error("Did not receive the program name");
+        //This is passed as quiet, so it will never show up even if it happens
+        //This is not ideal, but I can't risk it messing up the output
+        print_error("Did not receive the program name",true);
 
         return 1;
     }
-    else if(argc==1){
+    else if(argc<2 || argc>3){
         print_usage(args[0]);
 
         return 0;
@@ -40,22 +44,28 @@ int main(int argc,char* args[]){
 
     string data_path=args[1];
 
-    string checksum=get_checksum(data_path);
+    bool quiet=false;
+    if(argc==3){
+        //We better pass true as quiet here,
+        //since we are reading in the quiet argument
+        quiet=string_stuff.string_to_bool(args[2],true);
+    }
+
+    string checksum=get_checksum(data_path,quiet);
 
     cout<<checksum;
 
-    ///file_io.save_file("checksum.out",checksum);
+    return 0;
 }
 
-string get_checksum(string data_path){
+string get_checksum(string data_path,bool quiet){
     String_Stuff string_stuff;
-    File_IO file_io;
 
     string checksum="";
     string checksum_data="";
 
-    string log="";
-    uint32_t files=0;
+    ///string log="";
+    ///uint32_t files=0;
 
     vector<string> file_list;
 
@@ -67,7 +77,7 @@ string get_checksum(string data_path){
             file_list.push_back(file_path);
         }
         else{
-            log+="File '"+file_path+"' not parsed because it is not a regular file\n";
+            ///log+="File '"+file_path+"' not parsed because it is not a regular file\n";
         }
     }
 
@@ -77,21 +87,23 @@ string get_checksum(string data_path){
         File_IO_Load load(file_list[i]);
 
         if(load.file_loaded()){
-            files++;
+            ///files++;
 
             string data=load.get_data();
 
-            log+="Length (in bytes) of file '"+file_list[i]+"': "+string_stuff.num_to_string(data.length())+"\n";
+            ///log+="Length (in bytes) of file '"+file_list[i]+"': "+string_stuff.num_to_string(data.length())+"\n";
 
             checksum_data+=data;
         }
         else{
-            print_error("Error loading file for checksum calculation: '"+file_list[i]+"'");
+            print_error("Error loading file for checksum calculation: '"+file_list[i]+"'",quiet);
+
+            return "";
         }
     }
 
-    log+="Files parsed: "+string_stuff.num_to_string(files)+"\n";
-    log+="Checksum data length in bytes: "+string_stuff.num_to_string(checksum_data.length())+"\n";
+    ///log+="Files parsed: "+string_stuff.num_to_string(files)+"\n";
+    ///log+="Checksum data length in bytes: "+string_stuff.num_to_string(checksum_data.length())+"\n";
 
     if(checksum_data.length()>0){
         boost::crc_32_type result;
@@ -100,9 +112,9 @@ string get_checksum(string data_path){
         checksum=string_stuff.num_to_string((uint32_t)result.checksum());
     }
 
-    log+="Checksum: "+checksum+"\n";
+    ///log+="Checksum: "+checksum+"\n";
 
-    ///print_error(log);
+    ///print_error(log,quiet);
 
     return checksum;
 }
