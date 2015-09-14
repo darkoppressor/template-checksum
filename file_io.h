@@ -38,8 +38,6 @@ public:
 #ifdef GAME_OS_ANDROID
     class File_IO{
     public:
-        bool save_file(std::string path,std::string data,bool append=false,bool binary=false);
-
         bool directory_exists(std::string path);
         bool file_exists(std::string path);
         bool is_directory(std::string path);
@@ -92,8 +90,6 @@ public:
 #else
     class File_IO{
     public:
-        bool save_file(std::string path,std::string data,bool append=false,bool binary=false);
-
         bool directory_exists(std::string path);
         bool file_exists(std::string path);
         bool is_directory(std::string path);

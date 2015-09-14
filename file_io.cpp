@@ -3,7 +3,6 @@
 /* See the file docs/LICENSE.txt for the full license text. */
 
 #include "file_io.h"
-#include "print_error.h"
 
 #include <SDL.h>
 
@@ -76,53 +75,6 @@ string File_IO_Load::get_data(){
 }
 
 #ifdef GAME_OS_ANDROID
-    bool File_IO::save_file(string path,string data,bool append,bool binary){
-        string rw_mode="w";
-        if(append){
-            rw_mode="a";
-        }
-        if(binary){
-            rw_mode+="b";
-        }
-
-        SDL_RWops* rwops=SDL_RWFromFile(path.c_str(),rw_mode.c_str());
-
-        if(rwops!=NULL){
-            const char* data_chars=data.c_str();
-
-            size_t length=SDL_strlen(data_chars);
-
-            size_t written_length=SDL_RWwrite(rwops,data_chars,1,length);
-
-            SDL_RWclose(rwops);
-
-            if(written_length!=length){
-                //We assume appending means we are working with the error log.
-                //We don't post an error about it failing because that would cause an infinite loop.
-                if(!append){
-                    string msg="Error saving file '"+path+"': ";
-                    msg+=SDL_GetError();
-                    Log::add_error(msg);
-                }
-
-                return false;
-            }
-        }
-        else{
-            //We assume appending means we are working with the error log.
-            //We don't post an error about it failing because that would cause an infinite loop.
-            if(!append){
-                string msg="Error opening file '"+path+"' for saving: ";
-                msg+=SDL_GetError();
-                Log::add_error(msg);
-            }
-
-            return false;
-        }
-
-        return true;
-    }
-
     bool File_IO::directory_exists(string path){
         DIR* dir=0;
 
@@ -376,53 +328,6 @@ string File_IO_Load::get_data(){
         return dir_entry->d_name;
     }
 #else
-    bool File_IO::save_file(string path,string data,bool append,bool binary){
-        string rw_mode="w";
-        if(append){
-            rw_mode="a";
-        }
-        if(binary){
-            rw_mode+="b";
-        }
-
-        SDL_RWops* rwops=SDL_RWFromFile(path.c_str(),rw_mode.c_str());
-
-        if(rwops!=NULL){
-            const char* data_chars=data.c_str();
-
-            size_t length=SDL_strlen(data_chars);
-
-            size_t written_length=SDL_RWwrite(rwops,data_chars,1,length);
-
-            SDL_RWclose(rwops);
-
-            if(written_length!=length){
-                //We assume appending means we are working with the error log.
-                //We don't post an error about it failing because that would cause an infinite loop.
-                if(!append){
-                    string msg="Error saving file '"+path+"': ";
-                    msg+=SDL_GetError();
-                    print_error(msg);
-                }
-
-                return false;
-            }
-        }
-        else{
-            //We assume appending means we are working with the error log.
-            //We don't post an error about it failing because that would cause an infinite loop.
-            if(!append){
-                string msg="Error opening file '"+path+"' for saving: ";
-                msg+=SDL_GetError();
-                print_error(msg);
-            }
-
-            return false;
-        }
-
-        return true;
-    }
-
     bool File_IO::directory_exists(string path){
         return boost::filesystem::exists(path);
     }
