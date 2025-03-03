@@ -1,0 +1,4 @@
+#!/bin/bash
+
+TARGET=Release-Linux-x86_64
+codeblocks --rebuild --target="${TARGET}" project.cbp > log-${TARGET}

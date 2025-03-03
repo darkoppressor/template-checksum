@@ -6,25 +6,25 @@
 #define sorting_h
 
 #include <vector>
+#include <cmath>
 
 template<typename Object>
-void quick_sort(std::vector<Object>& objects){
-    if(objects.size()<=1){
+void quick_sort (std::vector<Object>& objects) {
+    if (objects.size() <= 1) {
         return;
     }
 
-    int pivot_index=(int)floor((double)(objects.size()-1)/2.0);
+    int pivot_index = (int) floor((double) (objects.size() - 1) / 2.0);
 
     std::vector<Object> less_than;
     std::vector<Object> greater_than;
-    Object pivot=objects[pivot_index];
+    Object pivot = objects[pivot_index];
 
-    for(int i=0;i<objects.size();i++){
-        if(i!=pivot_index){
-            if(objects[i]<=pivot){
+    for (int i = 0; i < objects.size(); i++) {
+        if (i != pivot_index) {
+            if (objects[i] <= pivot) {
                 less_than.push_back(objects[i]);
-            }
-            else{
+            } else {
                 greater_than.push_back(objects[i]);
             }
         }
@@ -33,9 +33,9 @@ void quick_sort(std::vector<Object>& objects){
     quick_sort(less_than);
     quick_sort(greater_than);
 
-    objects=less_than;
+    objects = less_than;
     objects.push_back(pivot);
-    objects.insert(objects.end(),greater_than.begin(),greater_than.end());
+    objects.insert(objects.end(), greater_than.begin(), greater_than.end());
 }
 
 #endif
