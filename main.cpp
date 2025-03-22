@@ -56,6 +56,30 @@ int main (int argc, char* args[]) {
     return 0;
 }
 
+void add_files (string data_path, vector<string>& file_list) {
+    for (File_IO_Directory_Iterator it(data_path); it.evaluate(); it.iterate()) {
+        string file_path = it.get_full_path();
+
+        // If the file is not a directory.
+        if (it.is_regular_file()) {
+            file_list.push_back(file_path);
+        } else if (it.is_directory()) {
+            string dir_name = it.get_file_name();
+
+            boost::algorithm::trim(dir_name);
+
+            // Remove any ending slash
+            if (boost::algorithm::ends_with(dir_name, "/")) {
+                boost::algorithm::erase_last(dir_name, "/");
+            }
+
+            add_files(data_path + "/" + dir_name, file_list);
+        } else {
+            ///log+="File '"+file_path+"' not parsed because it is not a regular file\n";
+        }
+    }
+}
+
 string get_checksum (string data_path, bool quiet) {
     String_Stuff string_stuff;
     string checksum = "";
@@ -65,16 +89,7 @@ string get_checksum (string data_path, bool quiet) {
     ///uint32_t files=0;
     vector<string> file_list;
 
-    for (File_IO_Directory_Iterator it(data_path); it.evaluate(); it.iterate()) {
-        string file_path = it.get_full_path();
-
-        // If the file is not a directory.
-        if (it.is_regular_file()) {
-            file_list.push_back(file_path);
-        } else {
-            ///log+="File '"+file_path+"' not parsed because it is not a regular file\n";
-        }
-    }
+    add_files(data_path, file_list);
 
     quick_sort(file_list);
 
